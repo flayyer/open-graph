@@ -1,11 +1,12 @@
-import React, { useContext, Fragment } from 'react'
-import {
-  Helmet,
-  useRuntime,
-  RenderContext,
-  canUseDOM,
-} from 'vtex.render-runtime'
+import Flayyer from '@flayyer/flayyer'
+import React, { Fragment, useContext } from 'react'
 import { ProductContext, SKU } from 'vtex.product-context'
+import {
+  canUseDOM,
+  Helmet,
+  RenderContext,
+  useRuntime,
+} from 'vtex.render-runtime'
 
 // eslint-disable-next-line no-var
 declare var global: {
@@ -87,14 +88,23 @@ function productImage(selectedItem?: SKU): Array<MetaTag | {}> {
     return []
   }
 
-  const LIMIT_IMAGES = 3
+  const LIMIT_IMAGES = 1
+  const flayyer = new Flayyer({
+    tenant: 'marketplace',
+    deck: 'coliseum',
+    template: 'main',
+    meta: { id: selectedItem.name },
+    variables: {
+      img: selectedItem.images[0].imageUrl,
+    },
+  })
 
   return selectedItem.images
     .slice(0, LIMIT_IMAGES)
     .reduce<MetaTag[]>(
-      (acc, image) => [
+      (acc, _image) => [
         ...acc,
-        { property: 'og:image', content: image.imageUrl },
+        { property: 'og:image', content: flayyer.href() },
       ],
       []
     )

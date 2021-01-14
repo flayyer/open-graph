@@ -4,6 +4,7 @@
     "lint": "eslint --ext ts,tsx ."
   },
   "dependencies": {
+    "@flayyer/flayyer": "^1.2.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-intl": "^2.7.2"
